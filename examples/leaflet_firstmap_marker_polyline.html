@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>first leaflet map with polyline</title>
+<style>
+h1 {
+	color: green;
+}
+</style>
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
+</head>
+<body>
+    <div id="karte" style="width:900px;height:600px"></div>
+    <script>
+        var schichten = { // http://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml
+            geolandbasemap : L.tileLayer("http://{s}.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png", {
+                subdomains : ['maps', 'maps1', 'maps2', 'maps3', 'maps4'],
+                attribution : 'Datenquelle: <a href="http://www.basemap.at/">basemap.at</a>'
+            }),
+            bmapoverlay : L.tileLayer("http://{s}.wien.gv.at/basemap/bmapoverlay/normal/google3857/{z}/{y}/{x}.png", {
+                subdomains : ['maps', 'maps1', 'maps2', 'maps3', 'maps4'],
+                attribution : 'Datenquelle: <a href="http://www.basemap.at/">basemap.at</a>'
+            }),
+            bmapgrau : L.tileLayer("http://{s}.wien.gv.at/basemap/bmapgrau/normal/google3857/{z}/{y}/{x}.png", {
+                subdomains : ['maps', 'maps1', 'maps2', 'maps3', 'maps4'],
+                attribution : 'Datenquelle: <a href="http://www.basemap.at/">basemap.at</a>'
+            }),
+            bmaphidpi : L.tileLayer("http://{s}.wien.gv.at/basemap/bmaphidpi/normal/google3857/{z}/{y}/{x}.jpeg", {
+                subdomains : ['maps', 'maps1', 'maps2', 'maps3', 'maps4'],
+                attribution : 'Datenquelle: <a href="http://www.basemap.at/">basemap.at</a>'
+            }),
+            bmaporthofoto30cm : L.tileLayer("http://{s}.wien.gv.at/basemap/bmaporthofoto30cm/normal/google3857/{z}/{y}/{x}.jpeg", {
+                subdomains : ['maps', 'maps1', 'maps2', 'maps3', 'maps4'],
+                attribution : 'Datenquelle: <a href="http://www.basemap.at/">basemap.at</a>'
+            })
+        };
+        var map = L.map('karte', {
+            layers : [schichten.geolandbasemap],
+            center : [47.264269, 11.385312],
+            zoom : 12
+        });
+
+        L.control.layers({
+            "Geoland Basemap" : schichten.geolandbasemap,
+            "Geoland Basemap Overlay" : schichten.bmapoverlay,
+            "Geoland Basemap Grau": schichten.bmapgrau,
+            "Geoland Basemap High DPI" : schichten.bmaphidpi,
+            "Geoland Basemap Orthofoto" : schichten.bmaporthofoto30cm
+        }).addTo(map)
+
+        L.marker([47.264479,11.385213]).addTo(map).bindPopup('Uni');
+        L.marker([47.24725119827393,11.399774551391602]).addTo(map).bindPopup('Bergisel');
+        L.marker([47.229477404699665,11.41404390335083]).addTo(map).bindPopup('Igls');
+        L.marker([47.21111460503149,11.452431678771973]).addTo(map).bindPopup('Patscherkofel');
+        L.marker([47.21224424650966,11.477097272872925]).addTo(map).bindPopup('Boscheben');
+        L.marker([47.2081701360894,11.488502025604248]).addTo(map).bindPopup('Meißner Haus');
+
+        var linie = L.polyline([
+            [47.264479,11.385213],
+            [47.24725119827393,11.399774551391602],
+            [47.229477404699665,11.41404390335083],
+            [47.21111460503149,11.452431678771973],
+            [47.21224424650966,11.477097272872925],
+            [47.2081701360894,11.488502025604248]
+        ], {color: 'green',weight: 10}).addTo(map);
+
+        map.fitBounds(linie.getBounds());
+
+        L.control.scale({
+            'imperial' : false
+        }).addTo(map);
+
+    </script>
+</body>
+</html>
