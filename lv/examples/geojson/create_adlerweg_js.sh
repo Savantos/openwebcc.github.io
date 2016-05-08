@@ -16,7 +16,7 @@ for file in AdlerwegEtappe[012]*.gpx ; do
         awk 'NR>1'
     done
 done | awk '$3' |
-while read f l j ; do ogr2ogr -f GeoJSON "${f%.gpx}.geojson" "$f" $l ; done
+while read f l j ; do ogr2ogr --config GPX_ELE_AS_25D YES -f GeoJSON "${f%.gpx}.geojson" "$f" $l ; done
 
 # add variable declaration and store as .geojson.js
 echo "creating geojson.js files ..."
