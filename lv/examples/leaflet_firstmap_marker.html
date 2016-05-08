@@ -18,7 +18,12 @@
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap contributors</a>'
         }).addTo(map);
 
+        L.control.scale({
+            'imperial': false
+        }).addTo(map);
+
         L.marker([47.264269, 11.385312]).addTo(map);
+
     </script>
 </body>
 </html>
