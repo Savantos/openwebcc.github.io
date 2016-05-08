@@ -7,7 +7,6 @@
 <script src="../../js/leaflet/leaflet.js"></script>
 <script>
     window.onload = function () {
-
         var layers = { // http://www.basemap.at/wmts/1.0.0/WMTSCapabilities.xml
             geolandbasemap : L.tileLayer("http://{s}.wien.gv.at/basemap/geolandbasemap/normal/google3857/{z}/{y}/{x}.png", {
                 subdomains : ['maps', 'maps1', 'maps2', 'maps3', 'maps4'],
@@ -33,8 +32,8 @@
 
         var map = L.map('map', {
             layers : [layers.geolandbasemap],
-            center : [47.264269, 11.385312],
-            zoom : 16
+            center : [47.208611, 11.460556],
+            zoom : 12
         });
 
         L.control.layers({
@@ -45,10 +44,8 @@
             "Geoland Basemap Orthofoto" : layers.bmaporthofoto30cm
         }).addTo(map)
 
-        L.control.scale({
-            'imperial' : false
-        }).addTo(map);
-
+        var marker = L.marker([47.208611, 11.460556]).addTo(map);
+        marker.bindPopup('<h2>Blick vom Patscherkofel!</h2><img style="width:300px;" src="https://apps.tirol.gv.at/luft/patscherkofel.jpg" />')
     };
 </script>
 </head>
