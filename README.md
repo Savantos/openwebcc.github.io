@@ -1,2 +1,2 @@
 # lv
-code for lectures
+code for lectures is at http://openwebcc.github.io/
