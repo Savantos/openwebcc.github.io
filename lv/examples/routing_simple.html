@@ -18,6 +18,10 @@
                 ]
             });
 
+            L.control.scale({
+                'imperial': false
+            }).addTo(map);
+
             var routing = L.Routing.control({
                 fitSelectedRoutes : true
             }).addTo(map);

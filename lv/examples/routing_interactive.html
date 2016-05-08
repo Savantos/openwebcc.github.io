@@ -22,6 +22,10 @@
                 zoom : 10
             });
 
+            L.control.scale({
+                'imperial': false
+            }).addTo(map);
+
             routing_controll = null;
             starting_marker = null;
 
