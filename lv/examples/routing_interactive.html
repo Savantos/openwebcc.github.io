@@ -33,6 +33,9 @@
                 if (starting_marker) {
                     // create routing control
                     routing_controll = L.Routing.control({
+                        router: new L.Routing.OSRMv1({
+                            serviceUrl: 'https://router.project-osrm.org/route/v1',
+                        }),
                         fitSelectedRoutes : true
                     }).addTo(map);
 
