@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="../../js/leaflet/leaflet.css" />
     <script src="../../js/leaflet/leaflet.js"></script>
 
-
     <link rel="stylesheet" href="../../js/plugins/routing-machine/leaflet-routing-machine.css" />
     <script src="../../js/plugins/routing-machine/leaflet-routing-machine.min.js"></script>
     <script>
@@ -26,50 +25,39 @@
                 'imperial': false
             }).addTo(map);
 
-            routing_control = null;
-            starting_marker = null;
+            // Variable für den ersten geklickten Punkt definieren
+            var first_point;
 
-            map.on('click',function (event) {
-                if (starting_marker) {
-                    // create routing control
-                    routing_control = L.Routing.control({
-                        router: new L.Routing.OSRMv1({
-                            serviceUrl: 'https://router.project-osrm.org/route/v1',
-                        }),
-                        fitSelectedRoutes : true
-                    }).addTo(map);
+            // Routing control hinzufügen und minimieren
+            var routing_control = L.Routing.control({
+                show : false
+            }).addTo(map);
 
-                    // set waypoints and show route
+            // Klicks auf Karte verarbeiten
+            map.on("click", function (event) {
+                if (first_point) {
+                    // Wegpunkte setzen und Routing control zeigen
                     routing_control.setWaypoints([
-                        starting_marker.getLatLng(),
+                        first_point,
                         event.latlng
                     ]);
+                    routing_control.show();
 
-                    // remove marker with starting point
-                    map.removeLayer(starting_marker);
-
-                    // reset starting marker variable
-                    starting_marker = null;
+                    // ersten Punkt löschen
+                    first_point = null;
                 } else {
-                    // remove routing control if any
-                    if (routing_control) {
-                        routing_control.removeFrom(map);
-
-                        // reset routing controll variable
-                        routing_control = null;
-                    }
-                    // create marker at starting point with hint on what to do next
-                    starting_marker = L.marker(event.latlng).addTo(map);
-                    starting_marker.bindPopup('click destination ...').openPopup();
+                    // Koordinaten des ersten Punkts merken und Routing control minimieren
+                    first_point = event.latlng
+                    routing_control.hide()
                 }
             });
         };
-    
+
     </script>
 </head>
 <body>
-    <h1>Routing mit der Leaflet Routing Machine</h1>
-    <h3>Interaktiv (klicke zwei Punkte in der Karte ...)</h3>
+    <h1>Routing mit der Leaflet Routing Machine - interaktiv</h1>
+    <h3>Innsbruck - Matrei in Osttirol</h3>
     <div id="routingmap" style='width:900px;height:600px;'></div>
     <h3>Links</h3>
     <ul>
