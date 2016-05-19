@@ -70,11 +70,7 @@
             }
         });
 
-        // Marker Gruppe für Icons definieren und hinzufügen
-        markerGroup = L.featureGroup();
-        markerGroup.addTo(map);
-
-        // Marker mit Pop ups über GeoJSON zur Marker Gruppe hinzufügen
+        // Marker mit Pop ups über GeoJSON zur Karte hinzufügen
         var pois = L.geoJson(window.POIS_GEOJSON, {
             onEachFeature: function (feature, layer) {
                 //console.log(feature);
@@ -90,11 +86,12 @@
                     icon : L.icon({
                         iconSize : [36,36],
                         iconAnchor: [18,18],
+                        popupAnchor : [0, -20],
                         iconUrl: 'icons/nphtt_' + feature.properties.POI_TYP + '.png'
                     })
                 });
             }
-        }).addTo(markerGroup);
+        }).addTo(map);
 
         // Ausschnitt setzen
         map.fitBounds(pois.getBounds());
@@ -107,25 +104,21 @@
         }
 
         // Pulldown Menü DIV finden und Auswahleinträge für die Icons hinzufügen
-        pulldownMenu = document.getElementById("pulldown");
-        markerGroup.eachLayer(function(layer) {
-            var markers = layer.getLayers();
-            for (var i = 0; i < markers.length; i += 1) {
-                option = document.createElement("option");
-                option.value = i;
-                option.text = markers[i]._popup.getContent();
-                pulldownMenu.appendChild(option);
-            }
-        });
+        var pulldownMenu = document.getElementById("pulldown");
+        var markers = pois.getLayers();
+        for (var i = 0; i < markers.length; i += 1) {
+            option = document.createElement("option");
+            option.value = i;
+            option.text = markers[i]._popup.getContent();
+            pulldownMenu.appendChild(option);
+        }
 
         // auf Änderungen im Pulldown Menü reagieren
         pulldownMenu.onchange = function(event) {
             var i = pulldownMenu.options[pulldownMenu.options.selectedIndex].value;
-            markerGroup.eachLayer(function(layer) {
-                var icon = layer.getLayers()[i];
-                map.setView(icon.getLatLng(), 14);
-                icon.openPopup();
-            });
+            var icon = pois.getLayers()[i];
+            map.setView(icon.getLatLng(), 14);
+            icon.openPopup();
         };
     };
     </script>
